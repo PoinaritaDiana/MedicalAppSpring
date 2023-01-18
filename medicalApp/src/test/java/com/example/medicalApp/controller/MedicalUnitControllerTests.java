@@ -92,7 +92,6 @@ public class MedicalUnitControllerTests {
     @DisplayName("Add medical unit endpoint - exception")
     public void addMedicalUnitEndpointException() throws Exception {
         MedicalUnit medicalUnit = new MedicalUnit("", "", "11111111");
-        when(medicalUnitService.addNewMedicalUnit(any())).thenReturn(medicalUnit);
         String medicalUnitResponseBody = mapper.writeValueAsString(medicalUnit);
         Matcher<Iterable<? extends String>> matcher = Matchers.containsInAnyOrder("The name of the medical unit cannot be empty",
                 "The city where the office is located cannot be empty",
