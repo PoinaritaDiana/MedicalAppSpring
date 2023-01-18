@@ -59,7 +59,6 @@ public class SpecializationControllerTests {
     @DisplayName("Add new specialization endpoint - exception")
     public void addSpecializationEndpointException() throws Exception {
         Specialization specialization = new Specialization("", "");
-        when(specializationService.addNewSpecialization(any())).thenReturn(specialization);
         String specializationResponseBody = mapper.writeValueAsString(specialization);
         Matcher<Iterable<? extends String>> matcher = Matchers.containsInAnyOrder("Name of specialization cannot be empty",
                 "Description of specialization cannot be empty");
