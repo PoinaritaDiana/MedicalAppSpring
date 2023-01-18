@@ -1,12 +1,10 @@
 package com.example.medicalApp.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 

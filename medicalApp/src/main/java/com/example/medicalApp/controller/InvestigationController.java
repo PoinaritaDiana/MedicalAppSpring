@@ -32,7 +32,7 @@ public class InvestigationController {
     @PostMapping("/new")
     public ResponseEntity<Investigation> addInvestigation(@RequestParam int doctorId, @RequestBody @Valid Investigation investigation) {
         Investigation newInvestigation = investigationService.addNewInvestigation(doctorId, investigation);
-        return ResponseEntity.created(URI.create("/" + newInvestigation.getInvestigationId()))
+        return ResponseEntity.created(URI.create("/investigation/" + newInvestigation.getInvestigationId()))
                 .body(newInvestigation);
     }
 

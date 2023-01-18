@@ -51,7 +51,7 @@ public class AppointmentController {
                                                                          @RequestParam int investigationId,
                                                                          @RequestBody @Valid Appointment appointment) {
         Appointment newAppointment = appointmentService.addNewAppointment(patientId, investigationId, appointment);
-        return ResponseEntity.created(URI.create("/" + newAppointment.getAppointmentId()))
+        return ResponseEntity.created(URI.create("/appointment/" + newAppointment.getAppointmentId()))
                 .body(newAppointment);
     }
 }

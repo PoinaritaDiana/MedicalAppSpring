@@ -28,7 +28,7 @@ public class SpecializationController {
     @PostMapping("/new")
     public ResponseEntity<Specialization> addSpecialization(@RequestBody @Valid Specialization specialization) {
         Specialization newSpecialization = specializationService.addNewSpecialization(specialization);
-        return ResponseEntity.created(URI.create("/" + newSpecialization.getSpecializationId()))
+        return ResponseEntity.created(URI.create("/specialization/" + newSpecialization.getSpecializationId()))
                 .body(newSpecialization);
     }
 

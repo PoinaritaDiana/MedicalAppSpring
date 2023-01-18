@@ -27,7 +27,7 @@ public class PatientController {
     @PostMapping("/new")
     public ResponseEntity<Patient> addPatient(@RequestBody @Valid Patient patient) {
         Patient newPatient = patientService.addNewPatient(patient);
-        return ResponseEntity.created(URI.create("/" + newPatient.getPatientId()))
+        return ResponseEntity.created(URI.create("/patient/" + newPatient.getPatientId()))
                 .body(newPatient);
     }
 

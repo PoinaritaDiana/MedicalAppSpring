@@ -37,7 +37,7 @@ public class MedicalReportController {
     public ResponseEntity<MedicalReport> addNewMedicalReport(@RequestParam int appointmentId,
                                                              @RequestBody @Valid MedicalReport report) {
         MedicalReport newReport = medicalReportService.addNewMedicalReportForAppointment(appointmentId, report);
-        return ResponseEntity.created(URI.create("/" + newReport.getMedicalReportId()))
+        return ResponseEntity.created(URI.create("/report/" + newReport.getMedicalReportId()))
                 .body(newReport);
     }
 }

@@ -28,7 +28,7 @@ public class SpecializationServiceTests {
     private SpecializationRepository specializationRepository;
 
     @Test
-    @DisplayName("Adding new specialization - happy flow")
+    @DisplayName("Add new specialization - happy flow")
     void addNewSpecializationHappyFlow() {
         //arrange
         Specialization specialization = buildSpecializationMock(1);

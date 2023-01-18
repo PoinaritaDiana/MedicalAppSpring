@@ -28,7 +28,7 @@ public class DoctorController {
                                             @RequestParam int medicalUnitId,
                                             @RequestParam int specializationId) {
         Doctor newDoctor = doctorService.addNewDoctor(medicalUnitId, specializationId, doctor);
-        return ResponseEntity.created(URI.create("/" + newDoctor.getDoctorId()))
+        return ResponseEntity.created(URI.create("/doctor/" + newDoctor.getDoctorId()))
                 .body(newDoctor);
     }
 
