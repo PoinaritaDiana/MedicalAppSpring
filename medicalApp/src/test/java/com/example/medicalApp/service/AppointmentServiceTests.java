@@ -1,8 +1,11 @@
 package com.example.medicalApp.service;
 
+import com.example.medicalApp.exceptions.InvalidAppointmentTimeException;
 import com.example.medicalApp.exceptions.InvalidDeletionOfOldAppointmentException;
 import com.example.medicalApp.exceptions.NoRecordWithIdFoundException;
 import com.example.medicalApp.model.Appointment;
+import com.example.medicalApp.model.Doctor;
+import com.example.medicalApp.model.Investigation;
 import com.example.medicalApp.model.Patient;
 import com.example.medicalApp.repository.AppointmentRepository;
 import com.example.medicalApp.repository.InvestigationRepository;
@@ -41,6 +44,65 @@ public class AppointmentServiceTests {
     @Test
     @DisplayName("Adding new appointment - happy flow")
     void addNewAppointmentHappyFlow() {
+        //arrange
+        Appointment appointment = new Appointment(LocalDateTime.of(2023, Month.JANUARY, 18, 19, 39));
+
+        int patientId = 1;
+        Patient patient = new Patient("last name", "first name", "11111111", "14-08-2000");
+        when(patientRepository.findById(patientId)).thenReturn(Optional.of(patient));
+
+        int investigationId = 1;
+        Investigation investigation = new Investigation("consultatie", "consultatie de rutina", 100, 30);
+        investigation.setDoctor(new Doctor());
+        when(investigationRepository.findById(investigationId)).thenReturn(Optional.of(investigation));
+
+        when(appointmentRepository.findAll()).thenReturn(new ArrayList<>());
+        when(appointmentRepository.save(appointment)).thenReturn(appointment);
+
+        //act
+        Appointment result = appointmentService.addNewAppointment(patientId, investigationId, appointment);
+
+        //assert
+        assertNotNull(result);
+        assertEquals(appointment.getAppointmentDate(), result.getAppointmentDate());
+        assertEquals(appointment.getInvestigation().getName(), result.getInvestigation().getName());
+        assertEquals(appointment.getPatient().getLastName(), result.getPatient().getLastName());
+    }
+
+    @Test
+    @DisplayName("Adding new appointment - Exception: other appointments during period")
+    void addNewAppointmentException() {
+        //arrange
+        Appointment appointment = new Appointment(LocalDateTime.of(2023, Month.JANUARY, 18, 19, 39));
+
+        int patientId = 1;
+        Patient patient = new Patient("last name", "first name", "11111111", "14-08-2000");
+        when(patientRepository.findById(patientId)).thenReturn(Optional.of(patient));
+
+        List<Investigation> investigationList = new ArrayList<>();
+        int investigationId = 1;
+        Investigation investigation = new Investigation("consultatie", "consultatie de rutina", 100, 30);
+        investigationList.add(investigation);
+        Doctor doctor = new Doctor();
+        doctor.setInvestigationList(investigationList);
+        investigation.setDoctor(doctor);
+        when(investigationRepository.findById(investigationId)).thenReturn(Optional.of(investigation));
+
+        List<Appointment> appointmentList = new ArrayList<>();
+        Appointment overlapAppointment = new Appointment(LocalDateTime.of(2023, Month.JANUARY, 18, 19, 45));
+        overlapAppointment.setInvestigation(investigation);
+        appointmentList.add(overlapAppointment);
+        when(appointmentRepository.findAll()).thenReturn(appointmentList);
+
+        //act
+        RuntimeException invalidAppointmentTimeException =
+                assertThrows(InvalidAppointmentTimeException.class,
+                        () -> appointmentService.addNewAppointment(patientId, investigationId, appointment));
+
+        //assert
+        assertEquals("The doctor doing the investigation has other appointments during " + appointment.getAppointmentDate()
+                        + "and " + appointment.getAppointmentDate().plusMinutes(investigation.getTime()),
+                invalidAppointmentTimeException.getMessage());
     }
 
     @Test

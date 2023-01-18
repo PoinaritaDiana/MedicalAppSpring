@@ -77,7 +77,7 @@ public class AppointmentService {
                     long duration = a.getInvestigation().getTime();
                     LocalDateTime startTime = a.getAppointmentDate();
                     LocalDateTime endTime = startTime.plusMinutes(duration);
-                    return (startTime.isAfter(appointmentEndTime) || endTime.isBefore(appointmentStartTime));
+                    return !(startTime.isAfter(appointmentEndTime) || endTime.isBefore(appointmentStartTime));
                 })
                 .collect(Collectors.toList())
                 .size();
