@@ -31,12 +31,12 @@ public class AppointmentController {
 
     @GetMapping("/old")
     public ResponseEntity<List<Appointment>> getOldAppointments(@RequestParam int patientId) {
-        return ResponseEntity.ok().body(appointmentService.getFutureAppointments(patientId));
+        return ResponseEntity.ok().body(appointmentService.getOldAppointments(patientId));
     }
 
     @GetMapping("/future")
     public ResponseEntity<List<Appointment>> getFutureAppointments(@RequestParam int patientId) {
-        return ResponseEntity.ok().body(appointmentService.getOldAppointments(patientId));
+        return ResponseEntity.ok().body(appointmentService.getFutureAppointments(patientId));
     }
 
     @DeleteMapping("/{appointmentId}")
