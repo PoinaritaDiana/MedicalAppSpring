@@ -1,5 +1,6 @@
 package com.example.medicalApp.controller;
 
+import com.example.medicalApp.exceptions.InvalidDeletionOfInvestigation;
 import com.example.medicalApp.model.Investigation;
 import com.example.medicalApp.service.InvestigationService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -153,5 +154,18 @@ public class InvestigationControllerTests {
                 .andReturn();
 
         assertEquals(result.getResponse().getContentAsString(), investigationResponseBody);
+    }
+
+    @Test
+    @DisplayName("Delete investigation endpoint - exception")
+    public void deleteInvestigationException() throws Exception {
+        when(investigationService.deleteInvestigation(anyInt())).thenThrow(new InvalidDeletionOfInvestigation("The investigation cannot be deleted"));
+
+        mockMvc.perform(delete("/investigation/{investigationId}", 1)
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.Reason").value("The investigation cannot be deleted"))
+                .andReturn();
+
     }
 }
