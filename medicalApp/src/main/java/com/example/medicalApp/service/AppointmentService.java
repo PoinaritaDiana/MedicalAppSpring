@@ -37,16 +37,17 @@ public class AppointmentService {
                 .orElseThrow(() -> new NoRecordWithIdFoundException(String.format(Constants.APPOINTMENT_NOT_FOUND, appointmentId)));
     }
 
-    public void deleteFutureAppointment(int appointmentId) {
+    public String deleteFutureAppointment(int appointmentId) {
         Appointment appointment = getAppointment(appointmentId);
 
         // check if it's an appointment that has not yet taken place -> you can delete it
         // if it's a past appointment or ongoing, you can't delete it
         if (appointment.getAppointmentDate().isBefore(LocalDateTime.now())) {
-            throw new InvalidDeletionOfOldAppointmentException("You can delete appointment with id =" + appointmentId
-                    + "because it's an old or ongoing appointment");
+            throw new InvalidDeletionOfOldAppointmentException("You can't delete appointment with id = " + appointmentId
+                    + " because it's an old or ongoing appointment");
         }
         appointmentRepository.deleteById(appointmentId);
+        return String.format("Appointment %s was successfully deleted", appointmentId);
     }
 
     public Appointment addNewAppointment(int patientId, int investigationId, Appointment appointment) {

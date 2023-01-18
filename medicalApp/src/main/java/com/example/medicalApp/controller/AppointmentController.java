@@ -42,8 +42,7 @@ public class AppointmentController {
 
     @DeleteMapping("/{appointmentId}")
     public ResponseEntity<String> deleteAppointment(@PathVariable @Min(0) int appointmentId) {
-        appointmentService.deleteFutureAppointment(appointmentId);
-        return ResponseEntity.ok().body("Appointment " + appointmentId + " was successfully deleted");
+        return ResponseEntity.ok().body(appointmentService.deleteFutureAppointment(appointmentId));
     }
 
     @PostMapping("/new")

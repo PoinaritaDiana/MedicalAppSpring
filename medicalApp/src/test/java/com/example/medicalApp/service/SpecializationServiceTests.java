@@ -16,7 +16,6 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -67,7 +66,7 @@ public class SpecializationServiceTests {
     void getSpecializationException() {
         //arrange
         int specializationId = 1;
-        when(specializationRepository.findById(anyInt())).thenReturn(Optional.empty());
+        when(specializationRepository.findById(specializationId)).thenReturn(Optional.empty());
 
         //act
         RuntimeException noSpecializationWithIdFoundException =

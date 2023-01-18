@@ -40,7 +40,7 @@ public class MedicalReportService {
         MedicalReport medicalReport = getMedicalReport(reportId);
         medicalReport.setDiagnostic(report.getDiagnostic());
         medicalReport.setAdditionalInvestigationRequired(report.getAdditionalInvestigationRequired());
-        medicalReport.setInterpretationResults(medicalReport.getInterpretationResults());
+        medicalReport.setInterpretationResults(report.getInterpretationResults());
         return medicalReportRepository.save(medicalReport);
     }
 }

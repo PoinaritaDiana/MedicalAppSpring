@@ -14,7 +14,6 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -50,7 +49,7 @@ public class MedicalUnitServiceTests {
         String city = "Ploiesti";
         List<MedicalUnit> medicalUnitList = new ArrayList<>();
         medicalUnitList.add(buildMedicalUnitMock());
-        when(medicalUnitRepository.findAllByCity(anyString())).thenReturn(medicalUnitList);
+        when(medicalUnitRepository.findAllByCity(city.toLowerCase())).thenReturn(medicalUnitList);
 
         //act
         List<MedicalUnit> result = medicalUnitService.getAllMedicalUnitsFromCity(city);

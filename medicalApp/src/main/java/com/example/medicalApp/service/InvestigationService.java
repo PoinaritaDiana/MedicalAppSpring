@@ -71,7 +71,7 @@ public class InvestigationService {
         return investigationRepository.findAllByDoctorId(doctorId);
     }
 
-    public void deleteInvestigation(int investigationId) {
+    public String deleteInvestigation(int investigationId) {
         Investigation investigation = getInvestigation(investigationId);
 
         // The investigation can be deleted only if no future appointments exist for it
@@ -86,5 +86,6 @@ public class InvestigationService {
             throw new InvalidDeletionOfInvestigation("The investigation cannot be deleted because there are still future appointments for it");
         }
         investigationRepository.deleteById(investigationId);
+        return String.format("Investigation %s was successfully deleted", investigationId);
     }
 }

@@ -19,6 +19,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -227,6 +228,40 @@ public class InvestigationServiceTests {
         assertEquals(String.format(Constants.DOCTOR_NOT_FOUND, doctorId),
                 noDoctorWithIdFoundException.getMessage());
     }
+
+    @Test
+    @DisplayName("Delete investigation - Exception: no investigation with given id")
+    void deleteInvestigationIdException() {
+        //arrange
+        int investigationId = 1;
+        when(investigationRepository.findById(investigationId)).thenReturn(Optional.empty());
+
+        //act
+        RuntimeException noInvestigationWithIdFoundException =
+                assertThrows(NoRecordWithIdFoundException.class,
+                        () -> investigationService.deleteInvestigation(investigationId));
+
+        //assert
+        assertEquals(String.format(Constants.INVESTIGATION_NOT_FOUND, investigationId),
+                noInvestigationWithIdFoundException.getMessage());
+    }
+
+    @Test
+    @DisplayName("Delete investigation - happy flow")
+    void deleteInvestigationHappyFlow() {
+        //arrange
+        int investigationId = 1;
+        Investigation investigation = buildInvestigationMock(investigationId, 100, null);
+        when(investigationRepository.findById(investigationId)).thenReturn(Optional.of(investigation));
+        doNothing().when(investigationRepository).deleteById(investigationId);
+
+        //act
+        String result = investigationService.deleteInvestigation(investigationId);
+
+        //assert
+        assertEquals("Investigation 1 was successfully deleted", result);
+    }
+
 
     private Investigation buildInvestigationMock(int investigationId, double price, Doctor doctor) {
         Investigation investigation = new Investigation("consultatie", "consultatie de rutina", price, 30);

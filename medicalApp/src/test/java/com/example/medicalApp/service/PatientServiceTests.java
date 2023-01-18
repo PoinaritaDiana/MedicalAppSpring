@@ -14,7 +14,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -105,7 +104,7 @@ public class PatientServiceTests {
     void getPatientByIdException() {
         //arrange
         int patientId = 1;
-        when(patientRepository.findById(anyInt())).thenReturn(Optional.empty());
+        when(patientRepository.findById(patientId)).thenReturn(Optional.empty());
 
         //act
         RuntimeException noPatientWithIdFoundException =

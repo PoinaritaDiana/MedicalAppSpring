@@ -54,7 +54,6 @@ public class InvestigationController {
 
     @DeleteMapping("/{investigationId}")
     public ResponseEntity<String> deleteInvestigation(@PathVariable int investigationId) {
-        investigationService.deleteInvestigation(investigationId);
-        return ResponseEntity.ok().body("Investigation " + investigationId + " was successfully deleted");
+        return ResponseEntity.ok().body(investigationService.deleteInvestigation(investigationId));
     }
 }

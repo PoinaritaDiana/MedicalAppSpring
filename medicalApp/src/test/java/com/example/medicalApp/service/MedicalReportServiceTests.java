@@ -17,11 +17,13 @@ import java.time.LocalDateTime;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 public class MedicalReportServiceTests {
+
+    private static final String DEFAULT_INTERPRETATION = "test interpretation";
+    private static final String DEFAULT_ADDITIONAL_INVESTIGATION = "test additional investigation";
 
     @InjectMocks
     private MedicalReportService medicalReportService;
@@ -37,7 +39,7 @@ public class MedicalReportServiceTests {
     void addNewMedicalReportHappyFlow() {
         //arrange
         int reportId = 1;
-        MedicalReport report = buildMedicalReportMock(reportId);
+        MedicalReport report = buildMedicalReportMock(reportId, DEFAULT_INTERPRETATION, DEFAULT_ADDITIONAL_INVESTIGATION);
         when(medicalReportRepository.save(report)).thenReturn(report);
 
         int appointmentId = 1;
@@ -53,16 +55,59 @@ public class MedicalReportServiceTests {
     @Test
     @DisplayName("Adding new medical report - Exception: no appointment with given id")
     void addNewMedicalReportException() {
+        //arrange
+        MedicalReport report = buildMedicalReportMock(1, DEFAULT_INTERPRETATION, DEFAULT_ADDITIONAL_INVESTIGATION);
+        int appointmentId = 1;
+        when(appointmentRepository.findById(appointmentId)).thenReturn(Optional.empty());
+
+        //act
+        RuntimeException noAppointmentWithIdFoundException =
+                assertThrows(NoRecordWithIdFoundException.class,
+                        () -> medicalReportService.addNewMedicalReportForAppointment(appointmentId, report));
+
+        //assert
+        assertEquals(String.format(Constants.APPOINTMENT_NOT_FOUND, appointmentId),
+                noAppointmentWithIdFoundException.getMessage());
     }
 
     @Test
     @DisplayName("Update medical report - happy flow")
     void updateMedicalReportHappyFlow() {
+        //arrange
+        int reportId = 1;
+        MedicalReport initialReport = buildMedicalReportMock(reportId, DEFAULT_INTERPRETATION, DEFAULT_ADDITIONAL_INVESTIGATION);
+        when(medicalReportRepository.findById(reportId)).thenReturn(Optional.of(initialReport));
+
+        MedicalReport reportInfoToUpdate = buildMedicalReportMock(reportId, "updated interpretation", "updated additional investigation");
+        when(medicalReportRepository.save(initialReport)).thenReturn(initialReport);
+
+        //act
+        MedicalReport result = medicalReportService.updateMedicalReport(reportId, reportInfoToUpdate);
+
+        //assert
+        assertNotNull(result);
+        assertEquals(reportInfoToUpdate.getMedicalReportId(), result.getMedicalReportId());
+        assertEquals(initialReport.getMedicalReportId(), result.getMedicalReportId());
+        assertEquals(reportInfoToUpdate.getDiagnostic(), result.getDiagnostic());
+        assertEquals(reportInfoToUpdate.getInterpretationResults(), result.getInterpretationResults());
     }
 
     @Test
     @DisplayName("Update medical report - Exception: no report with given in")
     void updateMedicalReportException() {
+        //arrange
+        int reportId = 1;
+        when(medicalReportRepository.findById(reportId)).thenReturn(Optional.empty());
+        MedicalReport report = buildMedicalReportMock(reportId, DEFAULT_INTERPRETATION, DEFAULT_ADDITIONAL_INVESTIGATION);
+
+        //act
+        RuntimeException noReportWithIdFoundException =
+                assertThrows(NoRecordWithIdFoundException.class,
+                        () -> medicalReportService.updateMedicalReport(reportId, report));
+
+        //assert
+        assertEquals(String.format(Constants.MEDICAL_REPORT_NOT_FOUND, reportId),
+                noReportWithIdFoundException.getMessage());
     }
 
     @Test
@@ -70,7 +115,7 @@ public class MedicalReportServiceTests {
     void getMedicalReportHappyFlow() {
         //arrange
         int reportId = 1;
-        MedicalReport report = buildMedicalReportMock(reportId);
+        MedicalReport report = buildMedicalReportMock(reportId, DEFAULT_INTERPRETATION, DEFAULT_ADDITIONAL_INVESTIGATION);
         when(medicalReportRepository.findById(reportId)).thenReturn(Optional.of(report));
 
         //act
@@ -89,7 +134,7 @@ public class MedicalReportServiceTests {
     void getMedicalReportException() {
         //arrange
         int reportId = 1;
-        when(medicalReportRepository.findById(anyInt())).thenReturn(Optional.empty());
+        when(medicalReportRepository.findById(reportId)).thenReturn(Optional.empty());
 
         //act
         RuntimeException noReportWithIdFoundException =
@@ -101,11 +146,13 @@ public class MedicalReportServiceTests {
                 noReportWithIdFoundException.getMessage());
     }
 
-    private MedicalReport buildMedicalReportMock(int reportId) {
+    private MedicalReport buildMedicalReportMock(int reportId,
+                                                 String interpretationResults,
+                                                 String additionalInvestigation) {
         MedicalReport report = new MedicalReport("test diagnostic");
         report.setMedicalReportId(reportId);
-        report.setInterpretationResults("test interpretation");
-        report.setAdditionalInvestigationRequired("test additional investigation");
+        report.setInterpretationResults(interpretationResults);
+        report.setAdditionalInvestigationRequired(additionalInvestigation);
         return report;
     }
 
