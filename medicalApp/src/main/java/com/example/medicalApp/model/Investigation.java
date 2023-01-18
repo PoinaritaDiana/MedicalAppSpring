@@ -51,19 +51,19 @@ public class Investigation {
 
     }
 
+    public Investigation(String name, String description, double price, long time) {
+        this.name = name;
+        this.description = description;
+        this.price = price;
+        this.time = time;
+    }
+
     public List<Appointment> getAppointmentList() {
         return appointmentList;
     }
 
     public void setAppointmentList(List<Appointment> appointmentList) {
         this.appointmentList = appointmentList;
-    }
-
-    public Investigation(String name, String description, double price, long time) {
-        this.name = name;
-        this.description = description;
-        this.price = price;
-        this.time = time;
     }
 
     public int getInvestigationId() {

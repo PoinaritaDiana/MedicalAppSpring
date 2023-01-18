@@ -23,7 +23,7 @@ public class PatientService {
     public String updateMedicalHistoryWithNewInfo(int patientId, String newMedicalHistoryInfo) {
         Patient patient = getPatient(patientId);
         String currentMedicalHistory = patient.getMedicalHistory() == null ? "" : patient.getMedicalHistory();
-        patient.setMedicalHistory(currentMedicalHistory + " " + newMedicalHistoryInfo);
+        patient.setMedicalHistory(currentMedicalHistory + newMedicalHistoryInfo);
         return patientRepository.save(patient).getMedicalHistory();
     }
 

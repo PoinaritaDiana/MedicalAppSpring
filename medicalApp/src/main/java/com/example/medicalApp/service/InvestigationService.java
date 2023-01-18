@@ -37,7 +37,7 @@ public class InvestigationService {
 
         if (newPrice < lowLimitPrice || newPrice > highLimitPrice) {
             throw new InvalidPriceForInvestigationException("The new price for the investigation cannot be less than " + lowLimitPrice
-                    + "or bigger than " + highLimitPrice);
+                    + " or bigger than " + highLimitPrice);
         }
         investigation.setPrice(newPrice);
         return investigationRepository.save(investigation);

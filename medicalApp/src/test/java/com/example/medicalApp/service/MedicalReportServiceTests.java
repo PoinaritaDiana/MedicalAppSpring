@@ -1,7 +1,9 @@
 package com.example.medicalApp.service;
 
 import com.example.medicalApp.exceptions.NoRecordWithIdFoundException;
+import com.example.medicalApp.model.Appointment;
 import com.example.medicalApp.model.MedicalReport;
+import com.example.medicalApp.repository.AppointmentRepository;
 import com.example.medicalApp.repository.MedicalReportRepository;
 import com.example.medicalApp.utils.Constants;
 import org.junit.jupiter.api.DisplayName;
@@ -11,6 +13,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -26,9 +29,25 @@ public class MedicalReportServiceTests {
     @Mock
     private MedicalReportRepository medicalReportRepository;
 
+    @Mock
+    private AppointmentRepository appointmentRepository;
+
     @Test
     @DisplayName("Adding new medical report - happy flow")
     void addNewMedicalReportHappyFlow() {
+        //arrange
+        int reportId = 1;
+        MedicalReport report = buildMedicalReportMock(reportId);
+        when(medicalReportRepository.save(report)).thenReturn(report);
+
+        int appointmentId = 1;
+        Appointment appointment = buildAppointmentMock(appointmentId);
+        when(appointmentRepository.findById(appointmentId)).thenReturn(Optional.of(appointment));
+
+        //act
+        MedicalReport result = medicalReportService.addNewMedicalReportForAppointment(appointmentId, report);
+
+        //assert
     }
 
     @Test
@@ -37,12 +56,12 @@ public class MedicalReportServiceTests {
     }
 
     @Test
-    @DisplayName("Updatemedical report - happy flow")
+    @DisplayName("Update medical report - happy flow")
     void updateMedicalReportHappyFlow() {
     }
 
     @Test
-    @DisplayName("Updatemedical report - Exception: no report with given in")
+    @DisplayName("Update medical report - Exception: no report with given in")
     void updateMedicalReportException() {
     }
 
@@ -73,7 +92,7 @@ public class MedicalReportServiceTests {
         when(medicalReportRepository.findById(anyInt())).thenReturn(Optional.empty());
 
         //act
-        NoRecordWithIdFoundException noReportWithIdFoundException =
+        RuntimeException noReportWithIdFoundException =
                 assertThrows(NoRecordWithIdFoundException.class,
                         () -> medicalReportService.getMedicalReport(reportId));
 
@@ -88,5 +107,11 @@ public class MedicalReportServiceTests {
         report.setInterpretationResults("test interpretation");
         report.setAdditionalInvestigationRequired("test additional investigation");
         return report;
+    }
+
+    private Appointment buildAppointmentMock(int appointmentId) {
+        Appointment appointment = new Appointment(LocalDateTime.now());
+        appointment.setAppointmentId(appointmentId);
+        return appointment;
     }
 }

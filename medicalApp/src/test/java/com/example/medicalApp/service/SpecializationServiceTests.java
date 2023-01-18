@@ -70,7 +70,7 @@ public class SpecializationServiceTests {
         when(specializationRepository.findById(anyInt())).thenReturn(Optional.empty());
 
         //act
-        NoRecordWithIdFoundException noSpecializationWithIdFoundException =
+        RuntimeException noSpecializationWithIdFoundException =
                 assertThrows(NoRecordWithIdFoundException.class,
                         () -> specializationService.getSpecialization(specializationId));
 
@@ -132,7 +132,7 @@ public class SpecializationServiceTests {
         when(specializationRepository.findById(specializationId)).thenReturn(Optional.empty());
 
         //act
-        NoRecordWithIdFoundException noSpecializationWithIdFoundException =
+        RuntimeException noSpecializationWithIdFoundException =
                 assertThrows(NoRecordWithIdFoundException.class,
                         () -> specializationService.updateSpecializationDescription(specializationId, newDescription));
 
