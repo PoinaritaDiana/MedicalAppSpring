@@ -8,7 +8,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import javax.validation.constraints.Min;
 import java.net.URI;
 
 @RestController
@@ -23,7 +22,7 @@ public class MedicalReportController {
     }
 
     @GetMapping("{reportId}")
-    public ResponseEntity<MedicalReport> getMedicalReport(@PathVariable @Min(0) int reportId) {
+    public ResponseEntity<MedicalReport> getMedicalReport(@PathVariable int reportId) {
         return ResponseEntity.ok().body(medicalReportService.getMedicalReport(reportId));
     }
 

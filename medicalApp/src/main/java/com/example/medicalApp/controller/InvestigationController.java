@@ -25,7 +25,7 @@ public class InvestigationController {
     }
 
     @GetMapping("/{investigationId}")
-    public ResponseEntity<Investigation> getInvestigation(@PathVariable @Min(0) int investigationId) {
+    public ResponseEntity<Investigation> getInvestigation(@PathVariable int investigationId) {
         return ResponseEntity.ok().body(investigationService.getInvestigation(investigationId));
     }
 
@@ -37,7 +37,7 @@ public class InvestigationController {
     }
 
     @PutMapping("/{investigationId}")
-    public ResponseEntity<Investigation> updateInvestigationPrice(@PathVariable @Min(0) int investigationId,
+    public ResponseEntity<Investigation> updateInvestigationPrice(@PathVariable int investigationId,
                                                                   @RequestParam @Min(10) @Max(1000) double price) {
         return ResponseEntity.ok().body(investigationService.updatePriceOfInvestigation(investigationId, price));
     }
@@ -48,7 +48,7 @@ public class InvestigationController {
     }
 
     @GetMapping("/doctor")
-    public ResponseEntity<List<Investigation>> getInvestigationsForDoctor(@RequestParam @Min(0) int doctorId) {
+    public ResponseEntity<List<Investigation>> getInvestigationsForDoctor(@RequestParam int doctorId) {
         return ResponseEntity.ok().body(investigationService.getInvestigationsForDoctor(doctorId));
     }
 

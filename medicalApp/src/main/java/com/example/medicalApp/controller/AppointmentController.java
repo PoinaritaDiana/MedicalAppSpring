@@ -10,7 +10,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import javax.validation.constraints.Min;
 import java.net.URI;
 import java.util.List;
 
@@ -26,7 +25,7 @@ public class AppointmentController {
     }
 
     @GetMapping("/{appointmentId}")
-    public ResponseEntity<Appointment> getAppointment(@PathVariable @Min(0) int appointmentId) {
+    public ResponseEntity<Appointment> getAppointment(@PathVariable int appointmentId) {
         return ResponseEntity.ok().body(appointmentService.getAppointment(appointmentId));
     }
 
@@ -41,7 +40,7 @@ public class AppointmentController {
     }
 
     @DeleteMapping("/{appointmentId}")
-    public ResponseEntity<String> deleteAppointment(@PathVariable @Min(0) int appointmentId) {
+    public ResponseEntity<String> deleteAppointment(@PathVariable int appointmentId) {
         return ResponseEntity.ok().body(appointmentService.deleteFutureAppointment(appointmentId));
     }
 

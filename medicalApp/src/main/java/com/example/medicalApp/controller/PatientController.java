@@ -8,7 +8,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.net.URI;
@@ -32,13 +31,13 @@ public class PatientController {
     }
 
     @PutMapping("/{patientId}/medicalhistory")
-    public ResponseEntity<String> addInfoToPatientMedicalHistory(@PathVariable @Min(0) int patientId,
+    public ResponseEntity<String> addInfoToPatientMedicalHistory(@PathVariable int patientId,
                                                                  @RequestBody @NotEmpty @NotNull String newMedicalHistoryInfo) {
         return ResponseEntity.ok().body(patientService.updateMedicalHistoryWithNewInfo(patientId, newMedicalHistoryInfo));
     }
 
     @GetMapping("/{patientId}")
-    public ResponseEntity<Patient> getPatient(@PathVariable @Min(0) int patientId) {
+    public ResponseEntity<Patient> getPatient(@PathVariable int patientId) {
         return ResponseEntity.ok().body(patientService.getPatient(patientId));
     }
 }

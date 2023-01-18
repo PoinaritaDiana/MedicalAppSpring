@@ -16,7 +16,7 @@ public class Specialization {
     private int specializationId;
 
     @NotNull(message = "Name of specialization cannot be null")
-    @NotEmpty(message = "Name of specialization cannot be empty!")
+    @NotEmpty(message = "Name of specialization cannot be empty")
     private String name;
 
     @NotNull(message = "Description of specialization cannot be null")

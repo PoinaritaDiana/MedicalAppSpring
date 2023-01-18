@@ -26,8 +26,8 @@ public class GlobalExceptionHandler {
                 .stream()
                 .map(DefaultMessageSourceResolvable::getDefaultMessage)
                 .collect(Collectors.toList());
-        responseParameters.put("Reason: ", errors);
-        responseParameters.put("DateTime: ", LocalDateTime.now().toString());
+        responseParameters.put("Reason", errors);
+        responseParameters.put("DateTime", LocalDateTime.now().toString());
 
         return ResponseEntity.badRequest().body(responseParameters);
     }
@@ -41,8 +41,8 @@ public class GlobalExceptionHandler {
                 .map(e -> e.getMessage())
                 .collect(Collectors.toList());
 
-        responseParameters.put("Reason: ", errors);
-        responseParameters.put("DateTime: ", LocalDateTime.now().toString());
+        responseParameters.put("Reason", errors);
+        responseParameters.put("DateTime", LocalDateTime.now().toString());
 
         return ResponseEntity.badRequest().body(responseParameters);
     }
@@ -51,8 +51,8 @@ public class GlobalExceptionHandler {
             InvalidDeletionOfInvestigation.class, InvalidPriceForInvestigationException.class})
     public ResponseEntity<?> handleCustomException(RuntimeException e) {
         Map<String, String> responseParameters = new HashMap<>();
-        responseParameters.put("Reason: ", e.getMessage());
-        responseParameters.put("DateTime: ", LocalDateTime.now().toString());
+        responseParameters.put("Reason", e.getMessage());
+        responseParameters.put("DateTime", LocalDateTime.now().toString());
 
         return ResponseEntity.badRequest().body(responseParameters);
     }
@@ -60,8 +60,8 @@ public class GlobalExceptionHandler {
     @ExceptionHandler({NoRecordWithIdFoundException.class})
     public ResponseEntity<?> handleRecordNotFound(RuntimeException e) {
         Map<String, String> responseParameters = new HashMap<>();
-        responseParameters.put("Reason: ", e.getMessage());
-        responseParameters.put("DateTime: ", LocalDateTime.now().toString());
+        responseParameters.put("Reason", e.getMessage());
+        responseParameters.put("DateTime", LocalDateTime.now().toString());
 
         return ResponseEntity.status(HttpStatus.NOT_FOUND)
                 .body(responseParameters);

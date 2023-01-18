@@ -27,7 +27,7 @@ public class MedicalUnitController {
     @PostMapping("/new")
     public ResponseEntity<MedicalUnit> addMedicalUnit(@RequestBody @Valid MedicalUnit medicalUnit) {
         MedicalUnit newMedicalUnit = medicalUnitService.addNewMedicalUnit(medicalUnit);
-        return ResponseEntity.created(URI.create("/" + newMedicalUnit.getMedicalUnitId()))
+        return ResponseEntity.created(URI.create("/unit/" + newMedicalUnit.getMedicalUnitId()))
                 .body(newMedicalUnit);
     }
 

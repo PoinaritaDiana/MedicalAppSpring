@@ -8,7 +8,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.net.URI;
@@ -33,14 +32,14 @@ public class SpecializationController {
     }
 
     @PutMapping("/{specializationId}")
-    public ResponseEntity<Specialization> updateSpecializationDescription(@PathVariable @Min(0) int specializationId,
+    public ResponseEntity<Specialization> updateSpecializationDescription(@PathVariable int specializationId,
                                                                           @RequestBody @NotEmpty @NotNull String description) {
         Specialization updatedSpecialization = specializationService.updateSpecializationDescription(specializationId, description);
         return ResponseEntity.ok().body(updatedSpecialization);
     }
 
     @GetMapping("/{specializationId}")
-    public ResponseEntity<Specialization> getSpecialization(@PathVariable @Min(0) int specializationId) {
+    public ResponseEntity<Specialization> getSpecialization(@PathVariable int specializationId) {
         return ResponseEntity.ok().body(specializationService.getSpecialization(specializationId));
     }
 

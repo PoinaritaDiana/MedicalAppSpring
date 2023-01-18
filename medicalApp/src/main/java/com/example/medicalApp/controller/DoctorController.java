@@ -8,7 +8,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import javax.validation.constraints.Min;
 import java.net.URI;
 import java.util.List;
 
@@ -33,7 +32,7 @@ public class DoctorController {
     }
 
     @GetMapping("/{doctorId}")
-    public ResponseEntity<Doctor> getDoctor(@PathVariable @Min(0) int doctorId) {
+    public ResponseEntity<Doctor> getDoctor(@PathVariable int doctorId) {
         return ResponseEntity.ok().body(doctorService.getDoctor(doctorId));
     }
 
