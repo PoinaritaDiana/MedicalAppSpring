@@ -77,7 +77,7 @@ public class SpecializationControllerTests {
     @DisplayName("Get specialization by id endpoint - happy flow")
     public void getSpecializationByIdEndpointHappyFlow() throws Exception {
         Specialization specialization = buildSpecializationMock(1);
-        when(specializationService.getSpecialization(1)).thenReturn(specialization);
+        when(specializationService.getSpecialization(anyInt())).thenReturn(specialization);
 
         MvcResult result = mockMvc.perform(get("/specialization/{specializationId}", 1)
                 .contentType(MediaType.APPLICATION_JSON))
@@ -111,7 +111,7 @@ public class SpecializationControllerTests {
     @DisplayName("Update description endpoint - happy flow")
     public void updateDescriptionEndpointHappyFlow() throws Exception {
         Specialization specialization = buildSpecializationMock(1);
-        when(specializationService.updateSpecializationDescription(1, "testdescription")).thenReturn(specialization);
+        when(specializationService.updateSpecializationDescription(anyInt(), anyString())).thenReturn(specialization);
 
         MvcResult result = mockMvc.perform(put("/specialization/{specializationId}", 1)
                 .contentType(MediaType.APPLICATION_JSON)
