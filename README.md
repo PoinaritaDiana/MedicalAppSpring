@@ -41,10 +41,11 @@ All classes are grouped in several packages:
 ### Unit tests
 ![img_2.png](img/img_2.png)
 
-#### For Service classes
+#### For Service classes: 
+![img_3.png](img/img_service_tests.png)
 
 #### For Controller classes
-
+![img_1.png](img/img_controller_tests.png)
 ----
 
 ### Swagger documentation
