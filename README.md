@@ -16,7 +16,7 @@ si relatiile dintre acestea:
 - pentru o investigatie pot exista mai multe programari, dar o programare nu poate fi facuta decat pentru o singura investigatie -> `OneToMany`
 - la finalul unei programari, se poate atasa un raport medical, iar un raport medical apartine unei singure programari - `OneToOne`
 
-//TODO INSERT DIAGRAMA     
+![database_medicalapp.png](img/databaseMedicalApp.png)
   
 ### Functionalitati si endpoint-urile corespunzatoare
 1. Pentru specializari:
