@@ -43,8 +43,8 @@ public class InvestigationController {
     }
 
     @GetMapping("/filter")
-    public ResponseEntity<List<Investigation>> getInvestigationsWithMaxPrice(@RequestParam @Min(0) double price) {
-        return ResponseEntity.ok().body(investigationService.getInvestigationsWithMaxPrice(price));
+    public ResponseEntity<List<Investigation>> getInvestigationsWithMaxPrice(@RequestParam @Min(0) double maxPrice) {
+        return ResponseEntity.ok().body(investigationService.getInvestigationsWithMaxPrice(maxPrice));
     }
 
     @GetMapping("/doctor")

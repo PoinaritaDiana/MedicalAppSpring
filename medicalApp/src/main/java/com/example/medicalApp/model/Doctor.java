@@ -27,6 +27,7 @@ public class Doctor {
 
     private String phone;
 
+    @JsonIgnore
     @ManyToOne(optional = false)
     @JoinColumn(name = "medical_unit_id")
     private MedicalUnit medicalUnit;

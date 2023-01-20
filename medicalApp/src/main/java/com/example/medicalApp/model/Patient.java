@@ -1,6 +1,8 @@
 package com.example.medicalApp.model;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -40,6 +42,7 @@ public class Patient {
     @Column(name = "medical_history")
     private String medicalHistory;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "patient")
     private List<Appointment> appointmentList = new ArrayList<>();
 

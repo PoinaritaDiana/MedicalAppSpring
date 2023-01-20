@@ -94,7 +94,7 @@ public class InvestigationControllerTests {
         when(investigationService.getInvestigationsWithMaxPrice(anyDouble())).thenReturn(investigationList);
 
         mockMvc.perform(get("/investigation/filter")
-                .param("price", "1000")
+                .param("maxPrice", "1000")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.[0].description").value("consultatie de rutina"))
@@ -110,7 +110,7 @@ public class InvestigationControllerTests {
         Matcher<Iterable<? extends String>> matcher = Matchers.containsInAnyOrder("must be greater than or equal to 0");
 
         mockMvc.perform(get("/investigation/filter")
-                .param("price", "-1")
+                .param("maxPrice", "-1")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.Reason.length()").value(1))
