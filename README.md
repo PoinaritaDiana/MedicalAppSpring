@@ -94,9 +94,9 @@ si relatiile dintre acestea:
     - se poate vizualiza un raport medical    
       `GET http://localhost:8080/report/{id}`
     - se pot actualiza informatiile dintr-un raport medical (diagnostic, investigatii ulterioare necesare, interpretarea rezultatelor)    
-      `PUT http://localhost:8080/report/{id}`
+      `PUT http://localhost:8080/report/{id}; info in RequestBody`
     - se poate adauga un raport medical pentru o programare   
-    `POST http://localhost:8080/report/new?appointmentId={id}`
+    `POST http://localhost:8080/report/new?appointmentId={id}; info in RequestBody`
 
 ----
 
@@ -105,7 +105,9 @@ Toate clasele sunt grupate în mai multe pachete:
 - model: conține clasele pentru cele 7 entități, prezentate in diagrama de mai sus
 - service: bean pentru definirea serviciilor (implementarea logicii de functionare a aplicatiei), câte unul per entitate
 - repository: bean/interfata pentru comunicarea cu baza de date, câte unul pentru fiecare entitate
-- exceptions: contine toate exceptiile custom definite, care sunt folosite in clasele Service; gestionarea acestora se face printr-un ControllerAdvice
+- exceptions: contine toate exceptiile custom definite, care sunt folosite in clasele Service; 
+  gestionarea acestora se face printr-un ControllerAdvice    
+  
 ![img_1.png](img/img_1.png)
 
 ----
